@@ -4,6 +4,10 @@ node {
      checkout scm
      sh "git rev-parse --short HEAD > .git/commit-id"
      commit_id = readFile('.git/commit-id').trim()
+     // send slack notification
+    slackSend (color: '#FF0000', message: "Running: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+
+    // throw the error
    }
    stage('test') {
      def myTestContainer = docker.image('node:4.6')
